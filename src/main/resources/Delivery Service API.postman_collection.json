@@ -1,0 +1,218 @@
+{
+	"info": {
+		"_postman_id": "3c353adf-3077-4463-ab7d-800033fa5c8c",
+		"name": "Delivery Service API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47086559",
+		"_collection_link": "https://spacecraft-physicist-45336351-2773079.postman.co/workspace/Soham-Dhara's-Workspace~9c75c6bb-aded-4914-8c77-12c7b98158bd/collection/47086559-3c353adf-3077-4463-ab7d-800033fa5c8c?action=share&source=collection_link&creator=47086559"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"if (pm.response.code === 200 && jsonData.token) {\r",
+									"    pm.collectionVariables.set(\"jwtToken\", jsonData.token);\r",
+									"    console.log(\"JWT Token saved: \" + jsonData.token);\r",
+									"} else {\r",
+									"    console.log(\"Login failed or no token found.\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"user\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delivery Orders & Parcels",
+			"item": [
+				{
+					"name": "Create Parcel (In-Memory)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"trackingNumber\": \"INMEM001\",\r\n    \"recipientName\": \"Jane Doe\",\r\n    \"recipientAddress\": \"42 Wallaby Way, Sydney\",\r\n    \"pincode\": \"200001\",\r\n    \"weight\": 0.75\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/delivery-orders/parcels/in-memory",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"delivery-orders",
+								"parcels",
+								"in-memory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Delivery Orders for Today",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/delivery-orders/today?page=0&size=5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"delivery-orders",
+								"today"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Filtered Delivery Orders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/delivery-orders?vendorName=Myntra&date=2025-07-26&page=0&size=5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"delivery-orders"
+							],
+							"query": [
+								{
+									"key": "vendorName",
+									"value": "Myntra"
+								},
+								{
+									"key": "date",
+									"value": "2025-07-26"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "jwtToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
