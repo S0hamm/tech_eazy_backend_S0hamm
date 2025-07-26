@@ -3,7 +3,7 @@
 This repository contains the backend implementation of a Delivery Service API built with Spring Boot. It provides functionalities for managing delivery orders and parcels, including user authentication via JWT, file uploads for bulk order processing, and filtering capabilities.
 
 The project is designed to be easily set up, built, and run, making it suitable for both manual testing and automated evaluation.
-.
+
 ---
 
 ## Table of Contents
